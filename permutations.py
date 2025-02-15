@@ -3,6 +3,11 @@
 """
 class Solution:
     def findPermutation(self, word):
+        """
+        The idea is to generate the permutations of xyz a.k.a f(xyz) by pivoting each char as the first
+        char and appending with the permutations of the remaining string i,e [x+f(yz) + y+f(xz) + z + f(xy)]
+        We can play with Sets <-> Lists depending on how we want to treat repeats. 
+        """
         __all__ = []
         if len(word) <= 1:
             __all__.append(word)
