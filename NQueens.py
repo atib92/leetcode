@@ -4,6 +4,14 @@ Each solution contains a distinct board configuration of the n-queens' placement
 """
 
 class Solution:
+    """ 
+    The idea is to try placing a queen in row[i] and recusively try to place the next queen in row[i+1].
+    A successfull combination ends when we place the last queen in the last row.
+    An unsuccessfull combination ends when we cannot place a queen in any row.
+
+    We need to find all valid combinations, so irrespective if a placing queen in row[i][j] succeeds or not,
+    we try next with row[i][j+1].
+    """
     def _is_available(self, row, col, grid):
         for r in range(self.N):
             for c in range(self.N):
