@@ -45,3 +45,33 @@ class Solution:
                 r += 1 # This is an awesome hack because even if we can create a ramp afer l++ it would still be smaller than the prev.
                        # ramp size if r is not incremented.
         return max_ramp
+
+  def maxWidthRamp2(self, nums: List[int]) -> int:
+      """
+      This time we want to use the monotonic stack algorithm. What's a monotonic stack: Push elements only if its either greater(lesser) than the top of stack.
+      a. Push only if >= tos -> Monotonic incresing stack
+      b. Push only if <= tos -> Monotonic decreasing stack (we include "=" in our defition though that might not be mathematically consistent with the concept of monotonicity)
+      Lets take an example: 
+      nums:  [6 0 8 2 1 5]
+      index:  0 1 2 3 4 5
+      We can think in terms of : At any index 'i', can a new ramp start or should an existing ramp continue ?
+      A new ramp can start if see a value < an earlier value. If however we see a value >= an earlier value, its best to continue ramp (since that is guranteed to be larger than if we start a new one)
+      So: 
+      A. Pass 1 : Create a monotonic decreasing stack so that each entry in the stack is the index from which a new ramp can start.
+      B. Pass 2 : Start from left side of nums : 
+         i) if nums[index] >= nums[stack[tos]], compare and save stack[tos] - index as a ramp. Pop from the stack and continue finding larger ramps until nums[index] is no longer greater than nums[stack[tos]]
+         ii) if nums[index] < nums[stack[tos]], no ramps can exist between stack[tos]<->index, try a shorter ramp stack[tos]<->index-1 ....
+      """
+        stack = []
+        tos = -1
+        max_ramp = 0
+        for index, num in enumerate(nums):
+            if index == 0 or num < nums[stack[tos]]:
+                tos += 1
+                stack.append(index)
+        for index in range(len(nums)-1,-1,-1):
+            while(tos >= 0 and nums[index] >= nums[stack[tos]]):
+                max_ramp = max(max_ramp, index - stack[tos])
+                tos -= 1
+                stack.pop()
+        return max_ramp
