@@ -36,3 +36,46 @@ class Solution:
         for n in range(2 ** N):
             power_set.append(self._to_subset(n, nums))
         return power_set
+
+
+"""
+Notes:
+If you think about the above solution, what we essentially did was flattened out all the possible recursions and iterated over them.
+For example: if you think f("abc") to be the union of f("bc") once with "a" and once without "a" i,e {"a" X f("bc)} U {f"bc"} (X: Cross Product, U: Union)
+you can come up with a simpler true recursive solution
+"""
+class PowerSet():
+    def _powerset(self, s, index):
+        print(f'PowerSet for {s[index:]}')
+        if len(s[index:]) == 0:
+            return [""]
+        else:
+            res = self._powerset(s, index+1)
+            out = [s[index] + _s for _s in res]
+            return res + out
+
+    def powerset(self, s):
+        return self._powerset(s, 0)
+
+"""
+The recursive solution also allows to extend the algo. to when there are duplicates in the string"
+Just sort the starting string, so that all duplicates are next to each other and in the recursive
+call, skip all duplicate recursion.
+"""
+class PowerSetWithDuplicates():
+    def _powerset(self, s, index):
+        print(f'PowerSetDuplicates for {s[index:]}')
+        if len(s[index:]) == 0:
+            return [""]
+        else:
+            inc = 1
+            # Go ahead until the next charecter is not a duplicate.
+            while(index + inc < len(s) and  s[index+inc] == s[index]):
+                inc += 1
+            res = self._powerset(s, index+inc)
+            out = [s[index] + _s for _s in res]
+            return res + out
+
+    def powerset(self, s):
+        s = sorted(s)
+        return self._powerset(s, 0)
