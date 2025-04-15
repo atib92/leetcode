@@ -58,3 +58,25 @@ class Solution:
         return _all_
     def findPermutation(self, s):
         return self._permute(''.join(sorted(s)))
+
+"""
+For list with duplicates
+"""
+class Solution:
+    def _permute(self, nums):
+        ret = [] # This should contain all the permutation lists, eg:[[1,1,2], [1,2,1], [2,1,1]]
+        if len(nums) == 1:
+            ret.append([nums[0]])
+        else:
+            pivot = None
+            for index, elem in enumerate(nums):
+                if elem == pivot:
+                    continue
+                else:
+                    pivot = nums[index]
+                    sub_permute = self._permute(nums[:index] + nums[index+1:]) # Returns a list of list e.g f([5]) -> [[5]]
+                    for p in sub_permute:
+                        ret.append([pivot]+p)
+        return ret
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        return self._permute(sorted(nums))
