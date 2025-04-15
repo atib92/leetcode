@@ -32,3 +32,29 @@ class Solution:
                 for sub_num in sub_nums:
                     __all__.append([pivot] + sub_num)
         return __all__
+
+"""
+When the input contains duplicate chars
+"""
+class Solution:
+    def _permute(self, s):
+        _all_ = []
+        if len(s) == 1:
+            _all_.append(s)
+        else:
+            pivot = None
+            for index, char in enumerate(s):
+                # This is similar to the power set problem when the input has duplicates.
+                # We don't need to compute all permutations when a char has been already
+                # used as a pivot earlier. Sorting the input string allows us to hop over
+                # all duplicate pivots.
+                if char == pivot:
+                    continue
+                else:
+                    pivot = char
+                    ret = self._permute(s[:index] + s[index+1:])
+                    for r in ret:
+                        _all_.append(pivot + r)
+        return _all_
+    def findPermutation(self, s):
+        return self._permute(''.join(sorted(s)))
