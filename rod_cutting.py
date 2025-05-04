@@ -37,3 +37,41 @@ class Solution:
                 max_price[index] = max(max_price[index], max_price[j] + max_price[index-j-1])
                 j += 1
         return max_price[N-1]
+
+"""
+Edit: Adding both recursinve and bottom up dynamic programming algorithms.
+"""
+class Solution:
+    @cache
+    def get_price(self, i):
+        # UTILITY : Return the price of rod of length i
+        return self.price[i-1]
+
+    @cache
+    def _max_price(self, n):
+        # No cut price
+        _max = self.get_price(n)
+        for cut in range(1, n):
+            _max = max(_max, self._max_price(n-cut) + self.get_price(cut))
+        return _max
+
+    def cutRod_Recursive(self, price):
+        self.price = price
+        n = len(price)
+        return self._max_price(n)
+    
+    def cutRod(self, price):
+        """
+        Bottom Up dynamic programming
+        """
+        # dp[i] is the max cost obtained for cutting a rod of length 'i'
+        N = len(price)
+        dp = [0] * (N + 1)
+        # For lenth 1, there is only one way i,e price[0], we use that for bootstrapping
+        dp[1] = price[0]
+        for l in range(2, N+1):
+            # Find the ans for a rod of length l. Start with price[l-1] which is the price of the uncut rod
+            dp[l] = price[l-1]
+            for cut in range(1,l):
+                dp[l] = max(dp[l], dp[l-cut] + price[cut-1])
+        return dp[N]
