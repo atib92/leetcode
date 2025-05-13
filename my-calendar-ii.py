@@ -52,6 +52,8 @@ class MyCalendarTwo:
     1. Store start and end times in a sorted map. map[start] and map[end] will store the 'net' booking starting at that time.
     2. For every booking, we just need to iterate over the map and keep a count of how many bookings are ongoing at any point of time.
     3. When we are inside the new booking range, if we hit the TRIPLE BOOKING condition, we return False.
+
+    THE LINE SWEEP ALGORITHM WORKS IRRESPECTIVE OF WHATEVER THE VALUE OF MAX BOOKINGS (3 in this question) ARE.
     """
     def print(self, s):
         pass
