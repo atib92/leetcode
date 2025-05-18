@@ -52,6 +52,9 @@ class Solution:
                     skip = dp[index-1][w]
                     keep = dp[index-1][w-nums[index-1]] if w >= nums[index-1] else False
                     dp[index][w] = skip or keep
+                # Early exit. At any step if target can be reached, we are safe to return True
+                if dp[index][target] is True:
+                    return True
             return dp[len(nums)][w]
         s = 0
         n = len(nums)
