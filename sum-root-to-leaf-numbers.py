@@ -65,3 +65,26 @@ class Solution:
         self.nums = [0]
         self._sumNumbers(root, "0")
         return sum(self.nums)
+
+
+"""
+Simpler approach w/o having to pass prefixes around and str<->int multiple times
+"""
+class Solution:
+    def _sumNumbers(self, node, num):
+        if node is None:
+            return
+        elif node.left is None and node.right is None:
+            self.sum += 10*num + node.val
+        else:
+            if node.left is not None:
+                self._sumNumbers(node.left, 10*num+node.val)
+            if node.right is not None:
+                self._sumNumbers(node.right, 10*num+node.val)
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        """
+        Lets do this w/o saving all the prefixes in memory
+        """
+        self.sum = 0
+        self._sumNumbers(root, 0)
+        return self.sum
