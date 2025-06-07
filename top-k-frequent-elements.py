@@ -49,3 +49,21 @@ class Solution:
             output.append(heapq.heappop(max_heap)[1])
             k -= 1
         return output
+
+ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        """
+        Here we will maintain a k sized min-heap. At any point if the heap size gooes beyond k,
+        we pop to bring it down. At the end the last k elements left in the min heap should be
+        the top K elements. We just need to return in reverse order since its a min-heap
+        This is O(KlogK)
+        """
+        min_heap = []
+        d = {}
+        for num in nums:
+            d[num] = d.get(num,0) + 1
+        for num, count in d.items():
+            heapq.heappush(min_heap, (count, num))
+            while(len(min_heap) > k):
+                heapq.heappop(min_heap)
+        return [elem[1] for elem in min_heap[-1::-1]]
+
