@@ -88,7 +88,13 @@ class Solution:
         if l == r:
             self.tree[s_index] = self.peaks[p_index]
         else:
-            # Draw out the recursions in a papr to understand this !
+            """ 
+            Draw out the recursions in a papr to understand this !
+            Basically if you draw out the segment tree, you will see that the leaf nodes are basically the elements in the peak array,
+            E.g the node tracking the range [4,4] is nothing but peak[4]. So if you have to start from the root node of the segment
+            tree and want to reach the leaf node which tracks the range [p_index, p_index] you have to choose between left and right
+            children of the node in the following way:
+            """
             mid = (l+r)//2
             if p_index <= mid:
                 self._adjust_segment_tree(2*s_index+1,l,mid,p_index)
