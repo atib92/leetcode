@@ -69,9 +69,9 @@ The final result is "". Since index k = 0 is out of bounds, the output is '.'.
 
 Constraints:
 
-1 <= s.length <= 105
+1 <= s.length <= 10^5
 s consists of only lowercase English letters and special characters '*', '#', and '%'.
-0 <= k <= 1015
+0 <= k <= 10^15
 The length of result after processing s will not exceed 1015.
 """
 class Solution:
@@ -116,7 +116,7 @@ class Solution:
                 """
                 <---l---> -ch-> <---l+1---ch>
                 abc, 3 ---d--> abcd , 4. 
-                say k = 3, ie 
+                say k = 3 = l, we can say that the current 'ch' is the kth char.
                 """
                 if k == l-1:
                     return ch
