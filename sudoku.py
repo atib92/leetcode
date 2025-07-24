@@ -44,7 +44,20 @@ Recursively try placing digits in board(row, col). If moves are not possible or 
 from typing import List
 
 class Solution:
-    # Utilities to get row and col values quickly
+    """Utilities to get row and col values quickly
+    Furture Optimization (A must for larger boards):
+    Use State Caching i,e a separate datastructure for values in row 'i', col 'i' and grid 'i' for i in [0,9)
+    self.rows = [set() for _ in range(9)]
+    self.cols = [set() for _ in range(9)]
+    self.grids = [set() for _ in range(9)] *
+    Then you do not need to recompute values in "get_row(col)(grid)_values". All you need to do is check if
+    potential 'elem' is NOT IN self.rows[row], NOT in self.cols[col] and NOT in self.grids[idx] *
+
+    * We would need to map a cell (row, col) to an idx in the self.grids. We can thin of it as something like
+    (row // 3)*3 + (col // 3)
+   
+    
+    """
     def get_row_values(self, row: int) -> set[str]:
         return set([self.board[row][col] for col in range(9)])
     def get_col_values(self, col:int) -> set[str]:
