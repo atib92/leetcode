@@ -34,3 +34,7 @@ class Solution:
             b = self._rob(index+1)
             self.cache[index] = max(a,b)
         return self.cache.get(index)
+
+"""
+EDIT: Check house_robbery_I for a much better DP approach with explanation.
+"""
