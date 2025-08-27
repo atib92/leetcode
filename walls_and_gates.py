@@ -20,7 +20,9 @@ class Solution:
         Approach:
         1. We do a Multi BFS from each GATE.
         2. We only move to neighboring rooms which are still empty
-        Note: BFS gurantees that a room that has been visited by a earlier GATE can not be visited with a smaller distance later. (Very much like stale oranges problems)
+        Note: BFS gurantees that a room that has been visited by a earlier GATE can not be visited with a smaller distance later. (Very much like stale oranges problems)\
+        EDIT: We were earlier enqueuing the distance in the queue (r,c,d) but if you think of it, cells are enqueed/dequeued to/from the queue at the same level 'd' which is
+        initially zero (for the gates) and increases as BFS goes layer by layer. So you can save memory by tracking 'd' outside the queue.
         """
         EMPTY = 2147483647
         WALL = -1
@@ -31,21 +33,23 @@ class Solution:
         for r in range(R):
             for c in range(C):
                 if rooms[r][c] == GATE:
-                    q.append((r,c,0)) # cooridnates and distance to nearest gate
+                    q.append((r,c))
                 elif rooms[r][c] == EMPTY:
                     empty_rooms += 1
         directions = [(0,-1),(0,+1), (-1,0), (+1,0)]
+        d = 0 # distance to gate
         while(q and empty_rooms > 0):
             # Deque all cells
             nodes = []
+            d += 1 # Everytime you deque, this is +1 distance away from a gate.
             while(q):
                 nodes.append(q.popleft())
             for node in nodes:
-                r, c, d = node[0], node[1], node[2]
+                r, c = node[0], node[1]
                 for rr, cc in directions:
                     r_bar, c_bar = r+rr, c+cc
                     if 0 <= r_bar < R and 0 <= c_bar < C and rooms[r_bar][c_bar] == EMPTY:
-                        rooms[r_bar][c_bar] = d+1
+                        rooms[r_bar][c_bar] = d
                         empty_rooms -= 1
                         q.append((r_bar, c_bar, d+1))
         return
