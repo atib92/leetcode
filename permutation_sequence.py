@@ -45,6 +45,8 @@ class Solution:
         the n! permuations can be divided in n groups of each (n-1)! combinations. At any step you need to narrow down the problem
         by finding which group out of the n the kth permuation is likely to be found and what the index (k') of the particular permuation
         in the next group.
+
+        ** NEXT LEVEL : Please refer kth_permutation.py for when the string has duplicates. **
         """
         if k == 0:
             return prefix + "".join(nums)
