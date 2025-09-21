@@ -61,3 +61,43 @@ class Solution:
                 # Nothing to process so we can end. Just increment i to get out of the loop
                 i += 1
         return out
+
+
+"""
+Attempt2 / Practise / Simpler
+"""
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        """
+        Lets two  adjancent intervals be (a,b) (x,y)
+        a <= x, a <= b
+        if a==x => (a,a) (a,b) -> (a,b) same as case 2
+        Case 1:  b > x  (a,y)
+        Case 2:  b <= x (a,b) (x,y)
+        So there are only 2 cases
+        Approach:
+        1. Sort intervals in increasing order of start timestamps
+        2. Start the current window with start = start time of the current window and traverse the intervals array
+        3. If next and next.start <= current.end continue the current window with current.end = max(current.end, next.end)
+        (*Note: The max for end is important. Think about [1,7][2,5] You can't blindly update end to be the current interavals's end*)
+        4. if next and next.start > current.end, finish the current window and start a new window from next.start
+        [1,7][2,5]
+        """
+        n = len(intervals)
+        if n <= 1:
+            return intervals
+        intervals.sort(key=lambda x: x[0])
+        i = 1
+        start, end = intervals[0][0], intervals[0][1]
+        merged_intervals = []
+        while(i < n):
+            if end < intervals[i][0]:
+                merged_intervals.append([start,end])
+                start, end = intervals[i][0], intervals[i][1]
+            else:
+                start, end = start, max(end, intervals[i][1])
+            i += 1
+        merged_intervals.append([start,end])
+        return merged_intervals
+
+            
