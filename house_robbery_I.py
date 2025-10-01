@@ -57,3 +57,25 @@ class Solution:
                 state = (skip, pick)
                 i += 1
             return max(state)
+
+
+# Much Simpler DP
+class Solution:  
+    def findMaxSum(self, houses):
+        n = len(houses)
+        dp = [0] * n
+        dp[0] = houses[0]
+        if n > 1:
+            dp[1] = max(dp[0], houses[1])
+            for i in range(2, n):
+                dp[i] = max(dp[i-1], dp[i-2]+houses[i])
+        return dp[-1]
+# OG
+class Solution:  
+    def findMaxSum(self, houses):
+        n = len(houses)
+        dp = [0] * (n+1)
+        dp[1] = houses[0]
+        for i in range(2, n+1):
+            dp[i] = max(dp[i-1], dp[i-2]+houses[i-1])
+        return dp[-1]
