@@ -1,3 +1,6 @@
+## EDIT: check largest-rectangle-in-histogram.py for a simpler implementation. The idea is same, to keep a monotonic increasing stack but unlike this implementation
+# we can solve the problem by just pushing indexes (and not elements) onto the stack.
+
 """
 Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.
 Example 1:
