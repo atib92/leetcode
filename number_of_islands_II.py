@@ -93,3 +93,45 @@ class Solution:
                     union_find(new_vertex, neighbor_vertex)
             out.append(len(islands))
         return out
+
+
+
+"""
+A much cleaner solution using standard DFU:
+"""
+class DFU():
+    def __init__(self, n):
+        self.parents = [i for i in range(n)]
+        self.sizes = [0]*n
+    def find(self, x):
+        if self.parents[x] == x:
+            return x
+        else:
+            return self.find(self.parents[x])
+    def union(self, x, y):
+        xrep, yrep = self.find(x), self.find(y)
+        if xrep == yrep:
+            return 0
+        else:
+            if self.sizes[xrep] >= self.sizes[yrep]:
+                self.sizes[xrep] += self.sizes[yrep]
+                self.parents[yrep] = xrep
+            else:
+                self.sizes[yrep] += self.sizes[xrep]
+                self.parents[xrep] = yrep
+            return 1
+class Solution:
+    def numIslands2(self, m: int, n: int, positions: List[List[int]]) -> List[int]:
+        islands = DFU(m*n)
+        count_islands = 0
+        res = []
+        grid = [[0]*n for _ in range(m)]
+        for r, c in positions:
+            if grid[r][c] == 0:
+                grid[r][c] = 1
+                count_islands += 1
+                for rr, cc in [(r,c-1), (r,c+1), (r-1,c), (r+1,c)]:
+                    if 0 <= rr < m and 0 <= cc < n and grid[rr][cc] == 1:
+                        count_islands -= islands.union(r*n + c, rr*n + cc)
+            res.append(count_islands)
+        return res
