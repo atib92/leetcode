@@ -72,3 +72,39 @@ class Solution:
                 if isConnected[src_city][dst_city] == 1:
                     self.merge_cities(src_city, dst_city)
         return len(self.provinces)
+
+
+# Standard DSU Implementation
+class DSU():
+    def __init__(self, n):
+        self.parent = [i for i in range(n)]
+        self.rank = [1] * n
+    def find(self, x):
+        if self.parent[x] == x:
+            return x
+        else:
+            return self.find(self.parent[x])
+    def union(self, x, y):
+        xrep, yrep = self.find(x), self.find(y)
+        if xrep != yrep:
+            if self.rank[xrep] >= self.rank[yrep]:
+                self.rank[xrep] += self.rank[yrep]
+                self.parent[yrep] = xrep
+            else:
+                self.rank[yrep] += self.rank[xrep]
+                self.parent[xrep] = yrep
+    def components(self):
+        count = 0
+        for index, parent in enumerate(self.parent):
+            if index == parent:
+                count += 1
+        return count
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        n = len(isConnected)
+        provinces = DSU(n)
+        for i in range(n):
+            for j in range(i+1, n):
+                if isConnected[i][j] == 1:
+                    provinces.union(i, j)
+        return provinces.components()
