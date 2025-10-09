@@ -65,3 +65,4 @@ Output
 4
 24
 """
+## EDIT : Checkout the-earliest-moment-when-everyone-become-friends.py for standard DSU implementation
