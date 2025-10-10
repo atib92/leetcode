@@ -75,3 +75,25 @@ if __name__ == "__main__":
 Output:
 [10, 15, 20, 25, 27, 29, 30, 32, 33, 35, 37, 39, 40, 45, 48, 50]
 """
+
+
+# Using standard lib
+
+import heapq
+
+class Solution:
+    #Function to merge k sorted arrays.
+    def mergeKArrays(self, grid, K):
+        # code here
+        # return merged list
+        R, C = len(grid), len(grid[0])
+        pq = []
+        for r in range(R):
+            heapq.heappush(pq, (grid[r][0], r, 0))
+        res = []
+        while(pq):
+            val, row, col = heapq.heappop(pq)
+            res.append(val)
+            if col + 1 < C:
+                heapq.heappush(pq, (grid[row][col+1], row, col+1))
+        return res
