@@ -30,18 +30,20 @@ nums[i] is either 0 or 1.
 0 <= k <= nums.length
 """
 class Solution:
-    def longestOnes(self, s: List[int], k: int) -> int:
-        l = r = 0
-        max_l = 0
-        zeros = 0
-        n = len(s)
-        while(l <= r and r < n):
-            if s[r] == 0:
+    def longestOnes(self, nums: List[int], k: int) -> int:
+        """
+        We maintain a sliding window from l_index to r_index and ensure we do not have more than k zeros.
+        If at any time number of zeros exceeds k, shrink the window from the l_index until the number of
+        zeros comes back to <= k
+        """
+        max_streak, l_index, r_index, n, zeros = 0, 0, 0, len(nums), 0
+        while(l_index <= r_index and r_index < n):
+            if nums[r_index] == 0:
                 zeros += 1
-            while(zeros > k):
-                if s[l] == 0:
-                    zeros -= 1
-                l += 1
-            max_l = max(max_l, r-l+1)
-            r += 1
-        return max_l
+                while(zeros > k):
+                    if nums[l_index] == 0:
+                        zeros -= 1
+                    l_index += 1
+            max_streak = max(max_streak, r_index-l_index+1)
+            r_index += 1
+        return max_streak
