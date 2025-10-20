@@ -54,6 +54,8 @@ class Solution:
                 return num
             else:
                 for i, ch in enumerate(word):
+                    # There can be 5000 valid words but the len of each word at max can be 10 so doing the char by char
+                    # check is much better than checking all possible valid words again every current word
                     for j in range(ord('a'), ord('z')+1):
                         # You can keep a check here for chr(j) != ch but not required since we later check new_word in seen before enqueing.
                         new_word = word[:i] + chr(j) + word[i+1:]
