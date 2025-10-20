@@ -55,3 +55,6 @@ class Solution:
                 for ch in __mapping__[digits[index+1]]:
                     q.append((index+1, combination+ch))
         return out
+
+# Time: O(4^N)
+# Space: O(4^N) Since every combination is stored 
