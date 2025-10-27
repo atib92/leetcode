@@ -82,7 +82,7 @@ class Solution:
         return dp[0][n-1]
 """
 Followup 2: List all the palindromic subsequences (don't just count)
-We we save intermediate solutions in a dp array, the amount of storage would explode. A recursive
+If we save intermediate solutions in a dp array, the amount of storage would explode. A recursive
 solution is better in this case
 """
 def findPS(self, s: str):
@@ -140,3 +140,23 @@ def findPS(self, s: str):
 
     # The final answer is the set of PSs for the entire string s[0..n-1]
     return findPS_recursive(0, n - 1)
+
+"""
+Comments on couting vs finding all the subsequences :
+
+for s[i] == s[j] : dp[i][j] = dp[i+1][j] + dp[i][j-1] + 1
+for s[1] != s[j] : dp[i][j] = dp[i+1][j] + dp[i][j-1] - dp[i+1][j-1]
+
+If you check carefully, dp[i+1][j] and dp[i][j-1] both includes dp[i+1][j-1] i,e dp[i+1][j-1] is being added twice. What does this mean ?
+dp[i+1][j-1] is the # of palindromic subsequences in the closed interval [i+1,j-1]. If s[i] == s[j] we can double the that number since
+all the dp[i+1][j-1] palindromes will contribute 2 plaindromes. Once itself and Once with the s[i] + .. + s[j] prefix. All that is remaining
+to add is the raw string "s[i]s[j]" and hence the +1
+
+When s[i] and s[j] are not same, dp[i+1][j-1] will contribute once palindrome only (w/o the prefix and suffix added) and hence we subtract dp[i+1][j-1] from (dp[i+1][j] + dp[i][j-1])
+
+
+When it comes to finding the subsequence, since we are using sets to store partial results, the double additon is a NOP, so we can safely inititialise
+the no. of subsequene to SET[i,j-1] and SET[i+1,j]. (SET[i+1,j-1] occurs twice but since its a SET we do not care)
+For the case of s[i] == s[j], for each elem in SET[i+1,j-1] we add the prefix and suffx.
+Post that there are just 2 more palindormes to add, single: "s[i]" and double "s[i]s[j]" (line 132s and 133)
+"""
