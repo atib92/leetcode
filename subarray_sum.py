@@ -25,3 +25,17 @@ class Solution:
             _max_here_ = max(num, num+_max_here_)
             _max_ = max(_max_, _max_here_)
         return _max_
+
+# cleaner
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        max_sum = float("-inf")
+        running_sum = 0
+        for num in nums:
+            if running_sum >= 0:
+                running_sum += num
+            else:
+                running_sum = num
+            max_sum = max(max_sum, running_sum)
+        return max_sum
+                
