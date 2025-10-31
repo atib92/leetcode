@@ -51,3 +51,20 @@ For n=3
 ["((()))","(()())","(())()","()(())","()()()"]
 """
         
+
+# Much simpler / cleaner version
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        def _generateParenthesis(l, r, prefix):
+            if l > r:
+                return
+            elif l == 0 and r == 0:
+                combinations.add(prefix)
+            else:
+                if l > 0:
+                    _generateParenthesis(l-1,r, prefix + '(')
+                if r > l:
+                    _generateParenthesis(l, r-1, prefix + ')')
+        combinations = set()
+        _generateParenthesis(n,n,'')
+        return list(combinations)
