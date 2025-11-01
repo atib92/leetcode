@@ -58,3 +58,20 @@ class Solution:
                 g = 0
                 start = i + 1
         return start
+
+
+# A more intuitive solution: Here we slide the starting point by 1 rather than above where we started from the next 
+# Point to Note: Prove why the above technique works (hint: and might also be better in run-time perf though both are O(N)
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        if sum(gas) < sum(cost):
+            return -1
+        n = len(gas)
+        g = 0
+        start = 0
+        for i in range(n):
+            g += gas[i]-cost[i]
+            while g < 0:
+                g -= gas[start]-cost[start]
+                start += 1
+        return start
