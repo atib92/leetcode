@@ -103,4 +103,38 @@ class Solution:
         return output
         
         
-        
+"""
+A Recursive solution: Same O(N*M) time complexity but run time is much better than the BFS approach.
+"""
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        def traverse(nodes, visited):
+            def _traverse(row, col):
+                visited[row][col] = True
+                for dr, dc in directions:
+                    nr, nc = row+dr, col+dc
+                    if 0 <= nr < R and 0 <= nc < C and heights[nr][nc] >= heights[row][col] and visited[nr][nc] == False:
+                        _traverse(nr, nc)
+            for row, col in nodes:
+                _traverse(row, col)
+        R, C = len(heights), len(heights[0])
+        atlantic, pacific = [[False]*C for _ in range(R)], [[False]*C for _ in range(R)]
+        directions = [(0,-1), (0,+1), (-1,0), (+1, 0)]
+        nodes = []
+        for col in range(C):
+            nodes.append((0,col))
+        for row in range(R):
+            nodes.append((row, 0))
+        traverse(nodes, pacific)
+        nodes = []
+        for col in range(C):
+            nodes.append((R-1, col))
+        for row in range(R):
+            nodes.append((row, C-1))
+        traverse(nodes, atlantic)
+        out = []
+        for r in range(R):
+            for c in range(C):
+                if pacific[r][c] and atlantic[r][c]:
+                    out.append([r,c])
+        return out
