@@ -21,6 +21,12 @@ Example 1:
 Input: nums = [1,2,4]
 
 Output: [0,1,1]
+
+Constraints:
+
+1 <= nums.length <= 5000
+​​​​​​​1 <= nums[i] <= 5000
+
 """
 from functools import cache
 
@@ -42,7 +48,7 @@ L, R = 0, len(palindromes)-1
 
 class Solution:
     """
-    We do a one time setup and find all nums from 0-5000 with palindromic binary representations.
+    We do a one time setup and find all nums from 0-5000 (check problem constraints) with palindromic binary representations.
     This would generally be in __init__ but to make it common across all test cases in LeetCode we
     put the setup at module level. 
     Once the setup is done, the problem boils down to finding the closeset number in the above list
