@@ -69,3 +69,33 @@ class Solution:
             if pos == N-1:
                 min_rotations = min(min_rotations, rotations)
         return min_rotations if min_rotations != 20001 else -1
+
+
+
+"""
+Cleaner code with less duplication.
+"""
+class Solution:
+    def minDominoRotations(self, tops: List[int], bottoms: List[int]) -> int:
+        def make_all_tops_same(tops, bottoms):
+            n = len(tops)
+            min_rotations = float("inf")
+            for target in range(1, 7):
+                rotations = 0
+                skip = False
+                for index in range(n):
+                    if tops[index] == target:
+                        continue
+                    elif bottoms[index] == target:
+                        rotations += 1
+                    else:
+                        skip = True
+                        break
+                if skip == False:
+                    # We have been able to make all tops equal to target
+                    min_rotations = min(rotations, min_rotations)
+            return min_rotations
+        rotations = min(make_all_tops_same(tops, bottoms), make_all_tops_same(bottoms, tops))
+        if rotations == float("inf"):
+            return -1
+        return rotations
