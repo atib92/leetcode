@@ -60,6 +60,8 @@ class Solution:
         '''
         Reduce each word to its canonical form. Once we know the unique canonical forms and the number of
         words which have the same form say N, then pairs contributed by these words are N*(N-1)/2
+        Think of the canonical form as the relative distance of each letter from the first letter a.k.a
+        delta encoding.
         '''
         @cache
         def wordhash(word):
