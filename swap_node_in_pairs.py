@@ -77,3 +77,22 @@ class Solution:
         prev = dummy
         _swap(prev, head)
         return dummy.next
+
+
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        '''
+        Iterative approach.
+        '''
+        dummy = ListNode(None)
+        dummy.next = head
+        prev = dummy
+        node = head
+        while node and node.next:
+            first, second, third = node, node.next, node.next.next
+            second.next = first
+            prev.next = second
+            first.next = third
+            prev = first
+            node = third
+        return dummy.next
