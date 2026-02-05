@@ -69,7 +69,7 @@ class Node:
 from typing import Optional
 from collections import deque
 class Solution:
-    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+    def cloneGraph_V1(self, node: Optional['Node']) -> Optional['Node']:
         """
         The idea is to a BFS of the graph and store {val:(node, node_copy)} in a nodeDB.
         In the second pass, we simply go through the nodedB and replicate the connections.
@@ -95,4 +95,28 @@ class Solution:
                 for neighbor in node.neighbors:
                     node_copy.neighbors.append(node_dB.get(neighbor.val)[1])
         return node_dB.get(1)[1]
+
+    # Single Pass Code:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        '''
+        Single Pass
+        '''
+        if not node:
+            return None
+        q = deque()
+        clones = {node:Node(node.val)}
+        ret = clones[node]
+        q.append(node)
+        while q:
+            node = q.popleft()
+            # This line expect that any node pushed to queue would have its clone created
+            clone = clones[node]
+            if node.neighbors:
+                for neighbor in node.neighbors:
+                    if neighbor not in clones:
+                        # Discovering a neighbor node for the first time
+                        clones[neighbor] = Node(neighbor.val)
+                        q.append(neighbor)
+                    clone.neighbors.append(clones[neighbor])
+        return ret
 
