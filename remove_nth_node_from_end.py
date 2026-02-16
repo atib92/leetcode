@@ -41,3 +41,22 @@ class Solution:
         else:
             head = slow_ptr.next
         return head
+
+
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        '''
+        A much cleaner solution by using a dummy head. This saves a lot of
+        edge cases when the node to be deleted is the head of the list.
+        '''
+        dummy_head = ListNode()
+        dummy_head.next = head
+        prev, fast, slow = None, dummy_head, dummy_head
+        while n > 0:
+            n -= 1
+            fast = fast.next
+        while fast:
+            fast = fast.next
+            prev = slow
+            slow = slow.next
+        prev.next = slow.next
+        return dummy_head.next
