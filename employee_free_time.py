@@ -74,4 +74,44 @@ class Solution:
                     out.append(Interval(start, k))
                     start = None
         return out
+     """
+# Definition for an Interval.
+class Interval:
+    def __init__(self, start: int = None, end: int = None):
+        self.start = start
+        self.end = end
+"""
+
+class Solution:
+    def employeeFreeTime(self, schedule: '[[Interval]]') -> '[Interval]':
+        '''
+        Merge intervals based approach.
+        1. Flatten intervals of k employees using a K way sort : O(K*N)
+        2. Merge flattened intervals
+        3. Go through merged intervals to find free intervals
+        '''
+        intervals = []
+        for employee_interval in schedule:
+            for interval in employee_interval:
+                intervals.append(interval)
+        # sort based on start time [This should be a k ways sort rather]
+        intervals.sort(key=lambda x:x.start)
+        n = len(intervals)
+        merged_intervals = []
+        running_interval = Interval(intervals[0].start, intervals[0].end)
+        for i in range(1, n):
+            if intervals[i].start >= running_interval.end:
+                # no overlap
+                merged_intervals.append(running_interval)
+                # start a new interval
+                running_interval = Interval(intervals[i].start, intervals[i].end)
+            else:
+                running_interval.end = max(running_interval.end, intervals[i].end)
+        merged_intervals.append(running_interval)
+        free_intervals = []
+        for i in range(len(merged_intervals)-1):
+            if merged_intervals[i].end != merged_intervals[i+1].start:
+                free_intervals.append(Interval(merged_intervals[i].end, merged_intervals[i+1].start))
+        return free_intervals
+
 
