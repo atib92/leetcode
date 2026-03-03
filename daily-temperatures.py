@@ -42,20 +42,14 @@ class Solution:
          index 2: Pop 1 and set out[1] = 1 stack [2]
          index 3: stack [2 3]
          index 4: stack [2 3 4]
-         ...... and so on !!
+         index 5: ... 
         '''
-        #temperatures.append(101) # senitel value
         stack = []
         n = len(temperatures)
         out = [0] * n
         for i, t in enumerate(temperatures):
-            if not stack or t <= temperatures[stack[-1]]:
-                stack.append(i)
-            else:
-                while stack and t > temperatures[stack[-1]]:
-                    pop_index = stack.pop()
-                    out[pop_index] = i - pop_index
-                stack.append(i)
+            while stack and t > temperatures[stack[-1]]:
+                pop_index = stack.pop()
+                out[pop_index] = i - pop_index
+            stack.append(i)
         return out
-
-
