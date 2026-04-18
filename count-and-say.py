@@ -70,7 +70,7 @@ class Solution:
                     last = ch
             return ''.join(output)
         for num in range(2, n+1):
-            c[num] = rle(c[num-1])
+            c[num] = rle(c[num-1]) # Pro Tip: No need for array since we are only always  interested in the last count_and_say value.
         return c[-1]
 
 
